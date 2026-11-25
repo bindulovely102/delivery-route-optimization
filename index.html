@@ -1,0 +1,339 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Route Optimization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="container">
+
+    <header class="hero">
+        <h1>Delivery Route Optimization</h1>
+        <h2>Travelling Salesperson Problem (TSP)</h2>
+        <p>
+            Find the shortest delivery route starting from
+            the warehouse, visiting all customers and
+            returning to the warehouse.
+        </p>
+    </header>
+
+    <section class="panel">
+        <h2>1. Problem Statement</h2>
+
+        <p>
+            The Delivery Route Optimization problem is based
+            on the Travelling Salesperson Problem (TSP).
+            A delivery person must visit every customer
+            exactly once and return to the warehouse.
+            The objective is to minimize the total distance.
+        </p>
+
+        <h3>Why does it matter in real life?</h3>
+
+        <ul>
+            <li>Reduces fuel consumption.</li>
+            <li>Saves delivery time.</li>
+            <li>Reduces transportation costs.</li>
+            <li>Improves courier and logistics services.</li>
+            <li>Helps plan efficient delivery routes.</li>
+        </ul>
+
+        <h3>What does the program compute?</h3>
+
+        <p>
+            The program calculates the delivery route and
+            total distance using four algorithms:
+            Brute Force, Dynamic Programming, Greedy
+            and Dijkstra-based routing.
+        </p>
+    </section>
+
+    <section class="panel">
+        <h2>2. Distance Matrix (KM)</h2>
+
+        <table>
+            <tr>
+                <th>From/To</th>
+                <th>W</th>
+                <th>C1</th>
+                <th>C2</th>
+                <th>C3</th>
+                <th>C4</th>
+            </tr>
+
+            <tr>
+                <th>W</th>
+                <td>0</td><td>10</td><td>15</td>
+                <td>20</td><td>25</td>
+            </tr>
+
+            <tr>
+                <th>C1</th>
+                <td>10</td><td>0</td><td>35</td>
+                <td>25</td><td>30</td>
+            </tr>
+
+            <tr>
+                <th>C2</th>
+                <td>15</td><td>35</td><td>0</td>
+                <td>30</td><td>20</td>
+            </tr>
+
+            <tr>
+                <th>C3</th>
+                <td>20</td><td>25</td><td>30</td>
+                <td>0</td><td>15</td>
+            </tr>
+
+            <tr>
+                <th>C4</th>
+                <td>25</td><td>30</td><td>20</td>
+                <td>15</td><td>0</td>
+            </tr>
+        </table>
+
+        <p>
+            W = Warehouse; C1, C2, C3, C4 = Customers.
+        </p>
+    </section>
+
+    <section class="panel">
+        <h2>3. Select Algorithm</h2>
+
+        <div class="buttons">
+
+            <button onclick="runAlgorithm('brute')">
+                Brute Force
+            </button>
+
+            <button onclick="runAlgorithm('dynamic')">
+                Dynamic Programming
+            </button>
+
+            <button onclick="runAlgorithm('greedy')">
+                Greedy
+            </button>
+
+            <button onclick="runAlgorithm('dijkstra')">
+                Dijkstra
+            </button>
+
+            <button onclick="runAll()">
+                Run All Algorithms
+            </button>
+
+        </div>
+
+        <h3>Algorithm Results</h3>
+
+        <div id="results">
+            Select an algorithm to calculate the shortest route.
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>4. Step-by-Step Working</h2>
+
+        <h3>Brute Force</h3>
+        <ol>
+            <li>Start from the warehouse.</li>
+            <li>Generate all possible customer orders.</li>
+            <li>Calculate each route distance.</li>
+            <li>Return to the warehouse.</li>
+            <li>Select the route with minimum distance.</li>
+        </ol>
+
+        <h3>Dynamic Programming</h3>
+        <ol>
+            <li>Start from the warehouse.</li>
+            <li>Represent visited customers using bitmasks.</li>
+            <li>Calculate costs for remaining customers.</li>
+            <li>Store calculated states using memoization.</li>
+            <li>Reconstruct the optimal route.</li>
+        </ol>
+
+        <h3>Greedy</h3>
+        <ol>
+            <li>Start from the warehouse.</li>
+            <li>Find the nearest unvisited customer.</li>
+            <li>Visit that customer.</li>
+            <li>Repeat until all customers are visited.</li>
+            <li>Return to the warehouse.</li>
+        </ol>
+
+        <h3>Dijkstra</h3>
+        <ol>
+            <li>Initialize source distance as zero.</li>
+            <li>Set all other distances to infinity.</li>
+            <li>Select the unvisited vertex with minimum distance.</li>
+            <li>Update neighbouring distances.</li>
+            <li>Repeat to find shortest paths.</li>
+            <li>Use these paths to construct a delivery tour.</li>
+        </ol>
+    </section>
+
+    <section class="panel">
+        <h2>5. Required Algorithm Syntax</h2>
+
+        <h3>Brute Force – Recursion</h3>
+
+        <pre>
+GENERATE(remaining, route):
+
+    IF remaining is empty:
+        calculate total distance
+        update minimum route
+        RETURN
+
+    FOR each customer:
+        remove customer from remaining
+        GENERATE(remaining, route + customer)
+        </pre>
+
+        <h3>Dynamic Programming – Memoization</h3>
+
+        <pre>
+TSP(mask, current):
+
+    IF all customers visited:
+        RETURN distance[current][0]
+
+    IF state exists in memo:
+        RETURN memo[state]
+
+    best = INFINITY
+
+    FOR each unvisited customer:
+        calculate candidate cost
+        best = MIN(best, candidate)
+
+    memo[state] = best
+    RETURN best
+        </pre>
+
+        <h3>Greedy – Nearest Neighbour</h3>
+
+        <pre>
+current = warehouse
+
+WHILE unvisited customers remain:
+
+    nearest = minimum distance customer
+
+    visit nearest
+
+    mark nearest as visited
+
+    current = nearest
+
+RETURN to warehouse
+        </pre>
+
+        <h3>Dijkstra – Relaxation</h3>
+
+        <pre>
+dist[source] = 0
+
+All other distances = INFINITY
+
+WHILE unvisited vertices remain:
+
+    u = minimum distance vertex
+
+    mark u as visited
+
+    FOR each neighbour v:
+
+        IF dist[u] + weight[u][v] < dist[v]:
+
+            dist[v] = dist[u] + weight[u][v]
+
+            previous[v] = u
+        </pre>
+    </section>
+
+    <section class="panel">
+        <h2>6. Time Complexity</h2>
+
+        <table>
+            <tr>
+                <th>Algorithm</th>
+                <th>Time Complexity</th>
+            </tr>
+            <tr>
+                <td>Brute Force</td>
+                <td>O(n × (n-1)!)</td>
+            </tr>
+            <tr>
+                <td>Dynamic Programming</td>
+                <td>O(n² × 2ⁿ)</td>
+            </tr>
+            <tr>
+                <td>Greedy</td>
+                <td>O(n²)</td>
+            </tr>
+            <tr>
+                <td>Dijkstra-based Tour</td>
+                <td>O(n³)</td>
+            </tr>
+        </table>
+
+        <h2>7. Space Complexity</h2>
+
+        <table>
+            <tr>
+                <th>Algorithm</th>
+                <th>Space Complexity</th>
+            </tr>
+            <tr>
+                <td>Brute Force</td>
+                <td>O(n)</td>
+            </tr>
+            <tr>
+                <td>Dynamic Programming</td>
+                <td>O(n × 2ⁿ)</td>
+            </tr>
+            <tr>
+                <td>Greedy</td>
+                <td>O(n)</td>
+            </tr>
+            <tr>
+                <td>Dijkstra-based Tour</td>
+                <td>O(n)</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="panel">
+        <h2>8. JavaScript Algorithm Source Code</h2>
+
+        <h3 id="codeTitle">Select an Algorithm</h3>
+
+        <pre><code id="codeDisplay">
+Your algorithm source code will appear here.
+        </code></pre>
+    </section>
+
+    <section class="panel">
+        <h2>9. Conclusion</h2>
+
+        <p>
+            This project demonstrates four algorithms for
+            delivery route optimization. Brute Force and
+            Dynamic Programming guarantee the optimal TSP
+            solution. Greedy and Dijkstra-based routing
+            provide alternative approaches with different
+            efficiency and optimality trade-offs.
+        </p>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
